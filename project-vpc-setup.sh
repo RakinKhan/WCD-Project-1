@@ -48,7 +48,9 @@ aws ec2 authorize-security-group-ingress `
 --protocol tcp --port 80 --cidr 0.0.0.0/0 
 aws ec2 authorize-security-group-ingress `
 --group-id $(aws ec2 describe-security-groups --filters Name=tag:Name,Values=Project-SG --query 'SecurityGroups[0].GroupId' --output text) `
---protocol tcp --port 443 --cidr 0.0.0.0/0 
+--protocol tcp --port 443 --cidr 0.0.0.0/0
+
+# Delete Security Group
 aws ec2 delete-security-group `
 --group-id $(aws ec2 describe-security-groups --filters Name=tag:Name,Values=Project-SG --query 'SecurityGroups[0].GroupId' --output text)
 
@@ -59,12 +61,15 @@ aws ec2 create-key-pair --key-name Project-KP --query 'KeyMaterial' --output tex
 aws ec2 run-instances --image-id ami-079db87dc4c10ac91 --count 1 --instance-type t2.micro --key-name Project-KP `
 --security-group-ids $(aws ec2 describe-security-groups --filters Name=tag:Name,Values=Project-SG --query 'SecurityGroups[0].GroupId' --output text) `
 --subnet-id $(aws ec2 describe-subnets --filters "Name=tag:Name,Values=Public-Subnet" --query 'Subnets[0].SubnetId' --output text) `
+--associate-public-ip-address `
 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=master-node-01}]'
 aws ec2 run-instances --image-id ami-079db87dc4c10ac91 --count 1 --instance-type t2.micro --key-name Project-KP `
 --security-group-ids $(aws ec2 describe-security-groups --filters Name=tag:Name,Values=Project-SG --query 'SecurityGroups[0].GroupId' --output text) `
 --subnet-id $(aws ec2 describe-subnets --filters "Name=tag:Name,Values=Public-Subnet" --query 'Subnets[0].SubnetId' --output text) `
+--associate-public-ip-address `
 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=worker-node-01}]'
 aws ec2 run-instances --image-id ami-079db87dc4c10ac91 --count 1 --instance-type t2.micro --key-name Project-KP `
 --security-group-ids $(aws ec2 describe-security-groups --filters Name=tag:Name,Values=Project-SG --query 'SecurityGroups[0].GroupId' --output text) `
 --subnet-id $(aws ec2 describe-subnets --filters "Name=tag:Name,Values=Public-Subnet" --query 'Subnets[0].SubnetId' --output text) `
+--associate-public-ip-address `
 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=worker-node-02}]'
