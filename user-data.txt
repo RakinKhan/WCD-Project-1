@@ -1,0 +1,27 @@
+#! /bin/bash
+
+sudo apt update -y 
+sudo apt upgrade -y
+
+# Install Python
+sudo apt install python3.10 -y
+sudo apt install python3-pip -y
+
+
+# Install Node 
+sudo apt install curl -y
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install nodejs -y
+sudo apt install npm -y
+
+# Install Java
+sudo apt install openjdk-11-jdk -y
+sudo apt update -y 
+
+# Install Docker
+sudo apt install apt-transport-https ca-certificates curl software-properties-common -y 
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable" -y 
+apt-cache policy docker-ce -y 
+sudo apt install docker-ce -y 
+sudo apt update -y 
