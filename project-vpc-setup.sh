@@ -14,7 +14,7 @@ aws ec2 create-subnet \
 aws ec2 create-internet-gateway \
 --tag-specifications 'ResourceType=internet-gateway,Tags=[{Key=Name,Value=Project-IGW}]'
 
-# Attach IGN
+# Attach IGW
 aws ec2 attach-internet-gateway \
 --internet-gateway-id $(aws ec2 describe-internet-gateways --filters "Name=tag:Name,Values=Project-IGW" --query 'InternetGateways[0].InternetGatewayId' --output text) \
 --vpc-id $(aws ec2 describe-vpcs --filters "Name=tag:Name,Values=Project-VPC" --query 'Vpcs[].VpcId' --output text)
@@ -61,18 +61,18 @@ aws ec2 run-instances --image-id ami-0c7217cdde317cfec --count 1 --instance-type
 --subnet-id $(aws ec2 describe-subnets --filters "Name=tag:Name,Values=Public-Subnet" --query 'Subnets[0].SubnetId' --output text) \
 --associate-public-ip-address \
 --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=master-node-01}]' \
---user-data file://user-data.txt
+# --user-data file://user-data.txt
 
-aws ec2 run-instances --image-id ami-0c7217cdde317cfec --count 1 --instance-type t2.micro --key-name Project-KP \
---security-group-ids $(aws ec2 describe-security-groups --filters Name=tag:Name,Values=Project-SG --query 'SecurityGroups[0].GroupId' --output text) \
---subnet-id $(aws ec2 describe-subnets --filters "Name=tag:Name,Values=Public-Subnet" --query 'Subnets[0].SubnetId' --output text) \
---associate-public-ip-address \
---tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=worker-node-01}]' \
---user-data file://user-data.txt
+# aws ec2 run-instances --image-id ami-0c7217cdde317cfec --count 1 --instance-type t2.micro --key-name Project-KP \
+# --security-group-ids $(aws ec2 describe-security-groups --filters Name=tag:Name,Values=Project-SG --query 'SecurityGroups[0].GroupId' --output text) \
+# --subnet-id $(aws ec2 describe-subnets --filters "Name=tag:Name,Values=Public-Subnet" --query 'Subnets[0].SubnetId' --output text) \
+# --associate-public-ip-address \
+# --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=worker-node-01}]' \
+# --user-data file://user-data.txt
 
-aws ec2 run-instances --image-id ami-0c7217cdde317cfec --count 1 --instance-type t2.micro --key-name Project-KP \
---security-group-ids $(aws ec2 describe-security-groups --filters Name=tag:Name,Values=Project-SG --query 'SecurityGroups[0].GroupId' --output text) \
---subnet-id $(aws ec2 describe-subnets --filters "Name=tag:Name,Values=Public-Subnet" --query 'Subnets[0].SubnetId' --output text) \
---associate-public-ip-address \
---tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=worker-node-02}]' \
---user-data file://user-data.txt
+# aws ec2 run-instances --image-id ami-0c7217cdde317cfec --count 1 --instance-type t2.micro --key-name Project-KP \
+# --security-group-ids $(aws ec2 describe-security-groups --filters Name=tag:Name,Values=Project-SG --query 'SecurityGroups[0].GroupId' --output text) \
+# --subnet-id $(aws ec2 describe-subnets --filters "Name=tag:Name,Values=Public-Subnet" --query 'Subnets[0].SubnetId' --output text) \
+# --associate-public-ip-address \
+# --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=worker-node-02}]' \
+# --user-data file://user-data.txt
